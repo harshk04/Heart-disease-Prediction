@@ -4,6 +4,9 @@ This repository contains code for a machine learning model that predicts the lik
 
 ## 📌Sneak Peek of Page :
 
+https://github.com/harshk04/Heart-disease-Prediction/assets/115946158/0f7aef65-d2d1-4cf1-83e7-54d3ab3777f0
+
+
 ## Dataset 📊:
 The dataset used in this project is stored in a CSV file named `heartdisease.csv`. It contains several features related to individuals' health, such as age, sex, chest pain type, blood pressure, serum cholestoral, fasting blood sugar, resting electrocardiographic results, maximum heart rate achieved, exercise-induced angina, ST depression induced by exercise, slope of the peak exercise ST segment, number of major vessels colored by fluoroscopy, and thalassemia type. Any missing values in the dataset are removed before training the model.
 
