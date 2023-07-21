@@ -4,7 +4,7 @@ This repository contains code for a machine learning model that predicts the lik
 
 ## 📌Sneak Peek of Page :
 
-https://github.com/harshk04/Heart-disease-Prediction/assets/115946158/0f7aef65-d2d1-4cf1-83e7-54d3ab3777f0
+https://github.com/harshk04/Heart-disease-Prediction/assets/115946158/87246f1f-ba99-47d2-8684-1a2d6f8439e9
 
 
 ## Dataset 📊:
