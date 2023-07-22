@@ -1,4 +1,4 @@
-from sklearn.metrics import r2_score
+# from sklearn.metrics import r2_score
 import numpy as np
 import pandas as pd
 from sklearn.model_selection import train_test_split
@@ -34,9 +34,9 @@ y_pred = model.predict(X_test)
 st.set_page_config(page_title="Disease Prediction Model",
                    page_icon=":tada:", layout="wide")
 
-r2 = r2_score(Y_test, y_pred)
-r2 = r2*100
-r2 = round(r2, 2)
+# r2 = r2_score(Y_test, y_pred)
+# r2 = r2*100
+# r2 = round(r2, 2)
 
 
 with st.sidebar:
@@ -122,7 +122,7 @@ if (selected == 'Heart Disease Prediction'):
 
 
 if (selected == 'Contact Me'):
-    def contact_form():
+    # def contact_form():
         st.header("Contact Me")
         st.write("Please fill out the form below to get in touch with me.")
 
@@ -141,12 +141,12 @@ if (selected == 'Contact Me'):
                 st.success("Your message has been sent successfully!")
 
 # Main application
-    def main():
-        # Display the Contact Me form
-        contact_form()
+    # def main():
+    #     # Display the Contact Me form
+    #     contact_form()
 
-    if __name__ == "__main__":
-        main()
+    # if __name__ == "__main__":
+    #     main()
 
 
 footer = """<style>
