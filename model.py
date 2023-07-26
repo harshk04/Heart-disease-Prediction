@@ -1,42 +1,36 @@
-# from sklearn.metrics import r2_score
+from sklearn.metrics import accuracy_score
+from sklearn.linear_model import LogisticRegression
+from sklearn.model_selection import train_test_split
 import numpy as np
 import pandas as pd
-from sklearn.model_selection import train_test_split
-from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import accuracy_score
 from streamlit_option_menu import option_menu
 import streamlit as st
 
 
-heart_data = pd.read_csv(
-    '/Users/Machine Learning/Heart Disease/heartdisease.csv')
+df = pd.read_csv('/Users/Machine Learning/Heart Disease/heartdisease.csv')
+# DROPS DUPLICATE
 
-heart_data = heart_data.dropna()  # Removing Null Values
+df.duplicated().sum()
+df = df.drop_duplicates()
 
-# Axis 1 for column and 0 for row
-X = heart_data.drop(columns='target', axis=1)
-Y = heart_data['target']
+x = df.drop(columns='target', axis=1)
+y = df['target']
 
+x_train, x_test, y_train, y_test = train_test_split(
+    x, y, test_size=0.2, stratify=y, random_state=0)
 
-X_train, X_test, Y_train, Y_test = train_test_split(
-    X, Y, test_size=0.2, stratify=Y, random_state=2)  # Stratify and random_state puts data in random
+lr = LogisticRegression()
+lr.fit(x_train, y_train)
 
-print(X.shape, X_train.shape, X_test.shape)
+y_pred = lr.predict(x_test)
 
-model = LogisticRegression()
-
-# Traing
-model.fit(X_train, Y_train)
-
-y_pred = model.predict(X_test)
+ac = accuracy_score(y_test, y_pred)
+ac = ac*100
+ac = round(ac, 2)
 
 
 st.set_page_config(page_title="Disease Prediction Model",
                    page_icon=":tada:", layout="wide")
-
-# r2 = r2_score(Y_test, y_pred)
-# r2 = r2*100
-# r2 = round(r2, 2)
 
 
 with st.sidebar:
@@ -73,72 +67,55 @@ if (selected == 'Heart Disease Prediction'):
     col1, col2, col3 = st.columns(3)
     with col1:
         age = st.number_input("Enter your Age", 0, 100)
+        resting_bp = st.number_input("Blood pressure (90-180)", 90, 180)
+        restecg = st.number_input("resting electrocardiographic results (values 0,1,2)", 0, 2)
+        oldpeak = st.number_input("ST depression induced by exercise relative (0-5)", 0, 5)
+        thal = st.number_input("3=Normal; 6=fixed defect; 7=reversable defect", 3, 7)
     with col2:
         sex = st.number_input("Sex (1 for Male & 0 for Female)", 0, 1)
+        serum_cholestoral = st.number_input("serum cholestoral in mg/dI (150-300)", 150, 300)
+        thalach = st.number_input("Maximum Heart Rate Achieved (100-180)", 100, 180)
+        slope = st.number_input("the slope of the peak exercise ST segment (0-2)", 0, 2)
     with col3:
         Chest_Pain = st.number_input("Chest Pain Type (1-4)", 1, 4)
-    with col1:
-        resting_bp = st.number_input("Blood pressure (90-180)", 90, 180)
-    with col2:
-        serum_cholestoral = st.number_input(
-            "serum cholestoral in mg/dI (150-300)", 150, 300)
-    with col3:
-        fasting_sugar = st.number_input(
-            "fasting blood sugar > 120 mg/dI", 120, 300)
-    with col1:
-        restecg = st.number_input(
-            "resting electrocardiographic results (values 0,1,2)", 0, 2)
-    with col2:
-        thalach = st.number_input(
-            "Maximum Heart Rate Achieved (100-180)", 100, 180)
-    with col3:
+        fasting_sugar = st.number_input("fasting blood sugar > 120 mg/dI", 120, 300)
         exang = st.number_input("exercise induced angina (0,1)", 0, 1)
-    with col1:
-        oldpeak = st.number_input(
-            "ST depression induced by exercise relative (0-5)", 0, 5)
-    with col2:
-        slope = st.number_input(
-            "the slope of the peak exercise ST segment (0-2)", 0, 2)
-    with col3:
-        ca = st.number_input(
-            "number of major vessels (0-3) colored by flourosopy", 0, 3)
-    with col1:
-        thal = st.number_input(
-            "3=Normal; 6=fixed defect; 7=reversable defect", 3, 7)
+        ca = st.number_input("number of major vessels (0-3) colored by flourosopy", 0, 3)
 
     if st.button('Predict Disease'):
-        pred = model.predict([[age, sex, Chest_Pain, resting_bp, serum_cholestoral,
-                             fasting_sugar, restecg, thalach, exang, oldpeak, slope, ca, thal]])
+        pred = lr.predict([[age, sex, Chest_Pain, resting_bp, serum_cholestoral,
+                            fasting_sugar, restecg, thalach, exang, oldpeak, slope, ca, thal]])
 
         if (pred[0] == 0):
             st.success(
                 "The Person is Fit and does Not have any Heart Disease")
-            st.warning("Accuracy of Model is 91.21 %")
+            st.write("Accuracy of Model is ", ac, " %")
+            # st.write("Accuracy of Model is", r2,"%")
         else:
             st.success("The Person is suffering from Heart Disease")
-            st.warning("Accuracy of Model is 91.21 %")
+            st.write("Accuracy of Model is ", ac, " %")
 
-    # st.write("Accuracy of Model is", r2,"%")
+            # st.write("Accuracy of Model is", r2,"%")
 
 
 if (selected == 'Contact Me'):
     # def contact_form():
-        st.header("Contact Me")
-        st.write("Please fill out the form below to get in touch with me.")
+    st.header("Contact Me")
+    st.write("Please fill out the form below to get in touch with me.")
 
     # Input fields for user's name, email, and message
-        name = st.text_input("Your Name")
-        email = st.text_input("Your Email")
-        message = st.text_area("Message", height=150)
+    name = st.text_input("Your Name")
+    email = st.text_input("Your Email")
+    message = st.text_area("Message", height=150)
 
     # Submit button
-        if st.button("Submit"):
-            if name.strip() == "" or email.strip() == "" or message.strip() == "":
-                st.warning("Please fill out all the fields.")
-            else:
+    if st.button("Submit"):
+        if name.strip() == "" or email.strip() == "" or message.strip() == "":
+            st.warning("Please fill out all the fields.")
+        else:
 
-                send_email_to = 'kumawatharsh2004@email.com'
-                st.success("Your message has been sent successfully!")
+            send_email_to = 'kumawatharsh2004@email.com'
+            st.success("Your message has been sent successfully!")
 
 # Main application
     # def main():
