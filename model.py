@@ -1,4 +1,4 @@
-from sklearn.metrics import accuracy_score
+from sklearn.metrics import r2_score
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split
 import numpy as np
@@ -24,7 +24,7 @@ lr.fit(x_train, y_train)
 
 y_pred = lr.predict(x_test)
 
-ac = accuracy_score(y_test, y_pred)
+ac = r2_score(y_test, y_pred)
 ac = ac*100
 ac = round(ac, 2)
 
